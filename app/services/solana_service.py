@@ -5,7 +5,8 @@ from typing import Dict, Optional
 from decimal import Decimal
 from solana.rpc.api import Client
 from solana.rpc.commitment import Confirmed
-from solders.pubkey import Pubkey
+from solana.rpc.types import TokenAccountOpts
+from solders.pubkey import Pubkey  # type: ignore
 from loguru import logger
 from tenacity import retry, stop_after_attempt, wait_exponential
 from app.core.config import settings
@@ -112,10 +113,10 @@ class SolanaService:
             pubkey = Pubkey.from_string(address)
             
             # Get token accounts owned by this wallet
-            response = self.client.get_token_accounts_by_owner(
-                pubkey,
-                {"programId": Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")}
-            )
+            # Note: Token program ID is hardcoded for now
+            token_program_id = Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
+            opts = TokenAccountOpts(program_id=token_program_id)
+            response = self.client.get_token_accounts_by_owner(pubkey, opts)
             
             if response.value:
                 for account in response.value:

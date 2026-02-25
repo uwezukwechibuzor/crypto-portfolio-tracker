@@ -1,7 +1,7 @@
 """
 Ethereum blockchain service for fetching wallet balances
 """
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, cast
 from decimal import Decimal
 from web3 import Web3
 from web3.exceptions import Web3Exception
@@ -64,7 +64,7 @@ class EthereumService:
             Checksummed address
         """
         if not self.w3:
-            return address
+            raise Exception("Ethereum service not connected")
         return self.w3.to_checksum_address(address)
     
     @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=2, max=10))
@@ -83,7 +83,7 @@ class EthereumService:
         
         try:
             checksum_addr = self.checksum_address(address)
-            balance_wei = self.w3.eth.get_balance(checksum_addr)
+            balance_wei = self.w3.eth.get_balance(checksum_addr)  # type: ignore
             balance_eth = Decimal(balance_wei) / Decimal(10**18)
             logger.debug(f"ETH balance for {address}: {balance_eth}")
             return balance_eth
@@ -120,7 +120,7 @@ class EthereumService:
             checksum_wallet = self.checksum_address(wallet_address)
             checksum_token = self.checksum_address(token_address)
             
-            contract = self.w3.eth.contract(address=checksum_token, abi=[balance_of_abi])
+            contract = self.w3.eth.contract(address=cast("ChecksumAddress", checksum_token), abi=[balance_of_abi])  # type: ignore
             balance = contract.functions.balanceOf(checksum_wallet).call()
             
             balance_decimal = Decimal(balance) / Decimal(10**decimals)

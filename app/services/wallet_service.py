@@ -136,10 +136,10 @@ class WalletService:
         
         try:
             # Fetch balances from blockchain
-            if wallet.chain == "ethereum":
-                token_balances = ethereum_service.get_wallet_balances(wallet.address)
-            elif wallet.chain == "solana":
-                token_balances = solana_service.get_wallet_balances(wallet.address)
+            if wallet.chain == "ethereum":  # type: ignore
+                token_balances = ethereum_service.get_wallet_balances(wallet.address)  # type: ignore
+            elif wallet.chain == "solana":  # type: ignore
+                token_balances = solana_service.get_wallet_balances(wallet.address)  # type: ignore
             else:
                 raise ValueError(f"Unsupported chain: {wallet.chain}")
             
@@ -154,8 +154,8 @@ class WalletService:
                 ).first()
                 
                 if existing_balance:
-                    existing_balance.balance = balance
-                    existing_balance.last_updated = datetime.utcnow()
+                    existing_balance.balance = balance  # type: ignore
+                    existing_balance.last_updated = datetime.utcnow()  # type: ignore
                     balance_obj = existing_balance
                 else:
                     balance_obj = Balance(
@@ -221,7 +221,7 @@ class WalletService:
         for wallet in wallets:
             balances = WalletService.get_wallet_balances(db, str(wallet.id))
             wallet_usd_value = sum(
-                (Decimal(b.usd_value) if b.usd_value else Decimal(0)) 
+                (Decimal(b.usd_value) if b.usd_value is not None else Decimal(0))  # type: ignore
                 for b in balances
             )
             total_usd_value += wallet_usd_value
