@@ -1,0 +1,25 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--tb=short",
+    "--disable-warnings",
+]
+
+# Disable web3 pytest plugin to avoid eth_typing compatibility issues
+[tool.pytest]
+plugins = []
+
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_backend"
+
+[project]
+name = "crypto-portfolio-tracker"
+version = "1.0.0"
+description = "Production-ready cryptocurrency portfolio tracker"
+requires-python = ">=3.11"

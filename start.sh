@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# Quick start script for Crypto Portfolio Tracker
+
+set -e
+
+echo "🚀 Starting Crypto Portfolio Tracker..."
+echo ""
+
+# Check if .env exists
+if [ ! -f .env ]; then
+    echo "📝 Creating .env file from template..."
+    cp .env.example .env
+    echo "⚠️  Please edit .env file and add your RPC URLs before continuing!"
+    echo ""
+    read -p "Press enter to continue after editing .env..."
+fi
+
+# Check if Docker is installed
+if ! command -v docker &> /dev/null; then
+    echo "❌ Docker is not installed. Please install Docker first."
+    exit 1
+fi
+
+if ! command -v docker-compose &> /dev/null; then
+    echo "❌ Docker Compose is not installed. Please install Docker Compose first."
+    exit 1
+fi
+
+echo "✅ Docker is installed"
+echo ""
+
+# Start services
+echo "🐳 Starting Docker containers..."
+docker-compose up -d
+
+echo ""
+echo "⏳ Waiting for services to be ready..."
+sleep 10
+
+# Check health
+echo ""
+echo "🏥 Checking application health..."
+curl -f http://localhost:5000/api/v1/health || {
+    echo "❌ Health check failed. Check logs with: docker-compose logs app"
+    exit 1
+}
+
+echo ""
+echo ""
+echo "✅ Crypto Portfolio Tracker is running!"
+echo ""
+echo "📍 API Base URL: http://localhost:5000/api/v1"
+echo "🏥 Health Check: http://localhost:5000/api/v1/health"
+echo ""
+echo "📚 Documentation:"
+echo "   - README.md - Getting started guide"
+echo "   - ARCHITECTURE.md - System architecture"
+echo "   - API_EXAMPLES.md - API usage examples"
+echo "   - DEPLOYMENT.md - Production deployment guide"
+echo ""
+echo "📊 View logs:"
+echo "   docker-compose logs -f app"
+echo ""
+echo "🛑 Stop services:"
+echo "   docker-compose down"
+echo ""
+echo "Happy tracking! 🎯"
