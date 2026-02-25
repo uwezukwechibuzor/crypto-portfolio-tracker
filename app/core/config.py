@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     ENVIRONMENT: str = "development"
     DEBUG: bool = True
     LOG_LEVEL: str = "INFO"
+    HOST: str = "0.0.0.0"
+    PORT: int = 5000
     
     # API Configuration
     API_V1_PREFIX: str = "/api/v1"
