@@ -2,8 +2,9 @@
 Redis connection and caching utilities
 """
 import json
-from typing import Any, Optional
+from typing import Any, Optional, List
 import redis
+from redis import Redis
 from loguru import logger
 from app.core.config import settings
 
@@ -13,7 +14,7 @@ class RedisCache:
     
     def __init__(self):
         """Initialize Redis connection"""
-        self.redis_client: Optional[redis.Redis] = None
+        self.redis_client: Optional[Redis] = None
         self._connect()
     
     def _connect(self):
@@ -27,7 +28,8 @@ class RedisCache:
                 socket_keepalive=True,
             )
             # Test connection
-            self.redis_client.ping()
+            if self.redis_client:
+                self.redis_client.ping()
             logger.info("Redis connection established")
         except Exception as e:
             logger.error(f"Failed to connect to Redis: {e}")
@@ -47,7 +49,7 @@ class RedisCache:
             return None
         
         try:
-            value = self.redis_client.get(key)
+            value: Optional[str] = self.redis_client.get(key)  # type: ignore
             if value:
                 return json.loads(value)
             return None
@@ -113,7 +115,7 @@ class RedisCache:
             return False
         
         try:
-            keys = self.redis_client.keys(pattern)
+            keys: List[str] = self.redis_client.keys(pattern)  # type: ignore
             if keys:
                 self.redis_client.delete(*keys)
             return True
