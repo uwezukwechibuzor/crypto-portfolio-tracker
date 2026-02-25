@@ -3,7 +3,6 @@ Database models for the crypto portfolio tracker
 """
 import uuid
 from datetime import datetime
-from decimal import Decimal
 from sqlalchemy import Column, String, DateTime, Numeric, ForeignKey, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from sqlalchemy.orm import relationship, declarative_base
@@ -77,8 +76,8 @@ class Wallet(Base):
             "address": self.address,
             "chain": self.chain,
             "label": self.label,
-            "created_at": self.created_at.isoformat() if self.created_at else None,
-            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat(),
         }
 
 
@@ -115,8 +114,8 @@ class Balance(Base):
             "token_symbol": self.token_symbol,
             "token_address": self.token_address,
             "balance": str(self.balance),
-            "usd_value": str(self.usd_value) if self.usd_value else None,
-            "last_updated": self.last_updated.isoformat() if self.last_updated else None,
+            "usd_value": str(self.usd_value) if self.usd_value is not None else None,
+            "last_updated": self.last_updated.isoformat(),
         }
 
 
@@ -148,6 +147,6 @@ class BalanceHistory(Base):
             "token_symbol": self.token_symbol,
             "token_address": self.token_address,
             "balance": str(self.balance),
-            "usd_value": str(self.usd_value) if self.usd_value else None,
-            "recorded_at": self.recorded_at.isoformat() if self.recorded_at else None,
+            "usd_value": str(self.usd_value) if self.usd_value is not None else None,
+            "recorded_at": self.recorded_at.isoformat(),
         }

@@ -2,7 +2,7 @@
 Database connection and session management
 """
 from contextlib import contextmanager
-from typing import Generator
+from typing import Generator, Iterator
 from sqlalchemy import create_engine, event
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.pool import QueuePool
@@ -52,7 +52,7 @@ def get_db() -> Generator[Session, None, None]:
 
 
 @contextmanager
-def get_db_context():
+def get_db_context() -> Iterator[Session]:
     """
     Context manager for database session
     
