@@ -4,7 +4,7 @@ Crypto Portfolio Tracker - Core Configuration
 import os
 from functools import lru_cache
 from typing import List, Union
-from pydantic import Field, field_validator
+from pydantic import Field
 from pydantic_settings import BaseSettings
 
 
