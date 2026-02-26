@@ -77,7 +77,7 @@ class EthereumService:
             ETH balance as Decimal
         """
         if not self.w3:
-            raise Exception("Ethereum service not connected")
+            raise Exception("Ethereum RPC not configured. Please set ETHEREUM_RPC_URL in .env file. Get a free API key from Infura (https://infura.io) or Alchemy (https://alchemy.com)")
         
         try:
             checksum_addr = self.checksum_address(address)
@@ -103,7 +103,7 @@ class EthereumService:
             Token balance as Decimal
         """
         if not self.w3:
-            raise Exception("Ethereum service not connected")
+            raise Exception("Ethereum RPC not configured. Please set ETHEREUM_RPC_URL in .env file. Get a free API key from Infura (https://infura.io) or Alchemy (https://alchemy.com)")
         
         try:
             # ERC20 balanceOf ABI
@@ -139,7 +139,7 @@ class EthereumService:
             Dictionary of token symbols to balances
         """
         if not self.w3:
-            raise Exception("Ethereum service not connected")
+            raise Exception("Ethereum RPC not configured. Please set ETHEREUM_RPC_URL in .env file. Get a free API key from Infura (https://infura.io) or Alchemy (https://alchemy.com)")
         
         balances = {}
         
@@ -169,7 +169,7 @@ class EthereumService:
             Current block number
         """
         if not self.w3:
-            raise Exception("Ethereum service not connected")
+            raise Exception("Ethereum RPC not configured. Please set ETHEREUM_RPC_URL in .env file. Get a free API key from Infura (https://infura.io) or Alchemy (https://alchemy.com)")
         return self.w3.eth.block_number
 
 
