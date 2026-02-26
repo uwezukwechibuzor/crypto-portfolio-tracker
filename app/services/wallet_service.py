@@ -12,6 +12,7 @@ from app.models.models import Wallet, Balance, BalanceHistory
 from app.services.ethereum_service import ethereum_service
 from app.services.solana_service import solana_service
 from app.services.cosmos_service import cosmos_service
+from app.services.starknet_service import starknet_service
 from app.services.coingecko_price_service import coingecko_price_service
 from app.db.redis_cache import cache
 
@@ -44,6 +45,9 @@ class WalletService:
         elif chain in ["cosmos", "celestia"]:
             if not cosmos_service.is_valid_address(address, chain):
                 raise ValueError(f"Invalid {chain.title()} address")
+        elif chain == "starknet":
+            if not starknet_service.is_valid_address(address):
+                raise ValueError("Invalid Starknet address")
         else:
             raise ValueError(f"Unsupported chain: {chain}")
         
@@ -147,6 +151,8 @@ class WalletService:
                 token_balances = solana_service.get_wallet_balances(wallet.address)  # type: ignore
             elif wallet.chain in ["cosmos", "celestia"]:  # type: ignore
                 token_balances = cosmos_service.get_wallet_balances(wallet.address, wallet.chain)  # type: ignore
+            elif wallet.chain == "starknet":  # type: ignore
+                token_balances = starknet_service.get_wallet_balances(wallet.address)  # type: ignore
             else:
                 raise ValueError(f"Unsupported chain: {wallet.chain}")
             
@@ -154,7 +160,7 @@ class WalletService:
             stored_balances = []
             
             # Define native tokens that should get USD prices
-            native_tokens = {"ETH", "SOL", "ATOM", "TIA", "BTC", "USDC", "USDT", "DAI", "WETH", "WBTC"}
+            native_tokens = {"ETH", "SOL", "ATOM", "TIA", "STRK", "BTC", "USDC", "USDT", "DAI", "WETH", "WBTC"}
             
             for token_symbol, balance in token_balances.items():
                 # Only get USD price for native/known tokens, not IBC tokens

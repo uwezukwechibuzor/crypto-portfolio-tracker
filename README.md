@@ -1,6 +1,6 @@
 # Crypto Portfolio Tracker
 
-A production-ready cryptocurrency portfolio tracker supporting Ethereum, Solana, Cosmos Hub, and Celestia blockchains. Built with Flask, PostgreSQL, and Redis.
+A production-ready cryptocurrency portfolio tracker supporting Ethereum, Solana, Cosmos Hub, Celestia, and Starknet blockchains. Built with Flask, PostgreSQL, and Redis.
 
 ![Architecture](https://img.shields.io/badge/Architecture-Microservices-blue)
 ![Python](https://img.shields.io/badge/Python-3.11+-green)
@@ -14,6 +14,7 @@ A production-ready cryptocurrency portfolio tracker supporting Ethereum, Solana,
 - Solana (SOL and SPL tokens)
 - Cosmos Hub (ATOM)
 - Celestia (TIA)
+- Starknet (STRK, ETH, USDC, USDT)
 
 ✅ **Core Functionality**
 - Add and manage wallet addresses
@@ -62,7 +63,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed system design.
 - **Backend**: Flask 3.0, Python 3.11+
 - **Database**: PostgreSQL 15
 - **Cache**: Redis 7
-- **Blockchain**: Web3.py (Ethereum), Solana.py (Solana), Cosmos REST APIs
+- **Blockchain**: Web3.py (Ethereum), Solana.py (Solana), Cosmos REST APIs, Starknet RPC
 - **Validation**: Pydantic
 - **Migrations**: Alembic
 - **Logging**: Loguru

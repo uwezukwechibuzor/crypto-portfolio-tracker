@@ -54,6 +54,10 @@ class Settings(BaseSettings):
     CELESTIA_RPC_URL: str = "https://api.celestia.nodestake.org"
     CELESTIA_TIMEOUT: int = 30
     
+    # Starknet
+    STARKNET_RPC_URL: str = "https://starknet-rpc.publicnode.com"
+    STARKNET_TIMEOUT: int = 30
+    
     # Rate Limiting
     RATE_LIMIT_ENABLED: bool = True
     RATE_LIMIT_REQUESTS: int = 100

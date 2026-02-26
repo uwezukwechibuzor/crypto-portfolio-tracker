@@ -56,13 +56,25 @@ curl -X POST http://localhost:5000/api/v1/wallets \
   }'
 ```
 
-### 6. Get All Wallets
+### 6. Create Starknet Wallet
+
+```bash
+curl -X POST http://localhost:5000/api/v1/wallets \
+  -H "Content-Type: application/json" \
+  -d '{
+    "address": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+    "chain": "starknet",
+    "label": "My Starknet Wallet"
+  }'
+```
+
+### 7. Get All Wallets
 
 ```bash
 curl http://localhost:5000/api/v1/wallets
 ```
 
-### 7. Fetch Wallet Balances
+### 8. Fetch Wallet Balances
 
 ```bash
 # Get wallet ID from previous response
@@ -73,19 +85,19 @@ curl -X POST http://localhost:5000/api/v1/wallets/$WALLET_ID/fetch \
   -d '{"force_refresh": false}'
 ```
 
-### 8. Get Stored Balances
+### 9. Get Stored Balances
 
 ```bash
 curl http://localhost:5000/api/v1/wallets/$WALLET_ID/balances
 ```
 
-### 9. Get Portfolio Summary
+### 10. Get Portfolio Summary
 
 ```bash
 curl http://localhost:5000/api/v1/portfolio
 ```
 
-### 10. Get Balance History
+### 11. Get Balance History
 
 ```bash
 curl "http://localhost:5000/api/v1/portfolio/history?wallet_id=$WALLET_ID&limit=50"

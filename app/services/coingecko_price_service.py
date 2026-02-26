@@ -21,6 +21,7 @@ class CoinGeckoPriceService:
         "SOL": "solana",
         "ATOM": "cosmos",
         "TIA": "celestia",
+        "STRK": "starknet",
         "USDC": "usd-coin",
         "USDT": "tether",
         "DAI": "dai",

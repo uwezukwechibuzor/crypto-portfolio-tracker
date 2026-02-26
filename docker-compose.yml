@@ -56,6 +56,7 @@ services:
       - SOLANA_RPC_URL=${SOLANA_RPC_URL:-https://api.mainnet-beta.solana.com}
       - COSMOS_RPC_URL=${COSMOS_RPC_URL:-https://cosmos-rest.publicnode.com}
       - CELESTIA_RPC_URL=${CELESTIA_RPC_URL:-https://api.celestia.nodestake.org}
+      - STARKNET_RPC_URL=${STARKNET_RPC_URL:-https://starknet-rpc.publicnode.com}
     ports:
       - "8000:5000"  # Map host port 8000 to container port 5000
     depends_on:
