@@ -51,7 +51,7 @@ class Settings(BaseSettings):
     COSMOS_TIMEOUT: int = 30
     
     # Celestia
-    CELESTIA_RPC_URL: str = "https://api.celestia.strange.love"
+    CELESTIA_RPC_URL: str = "https://api.celestia.nodestake.org"
     CELESTIA_TIMEOUT: int = 30
     
     # Rate Limiting
