@@ -8,13 +8,13 @@ from pydantic import BaseModel, Field, validator
 class WalletCreate(BaseModel):
     """Schema for creating a wallet"""
     address: str = Field(..., min_length=1, max_length=255, description="Wallet address")
-    chain: str = Field(..., description="Blockchain name (ethereum or solana)")
+    chain: str = Field(..., description="Blockchain name (ethereum, solana, cosmos, or celestia)")
     label: Optional[str] = Field(None, max_length=255, description="Optional wallet label")
     
     @validator("chain")
     def validate_chain(cls, v):
         """Validate chain is supported"""
-        supported_chains = ["ethereum", "solana"]
+        supported_chains = ["ethereum", "solana", "cosmos", "celestia"]
         if v.lower() not in supported_chains:
             raise ValueError(f"Chain must be one of: {', '.join(supported_chains)}")
         return v.lower()

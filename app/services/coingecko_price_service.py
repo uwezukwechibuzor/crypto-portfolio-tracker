@@ -19,6 +19,8 @@ class CoinGeckoPriceService:
         "ETH": "ethereum",
         "BTC": "bitcoin",
         "SOL": "solana",
+        "ATOM": "cosmos",
+        "TIA": "celestia",
         "USDC": "usd-coin",
         "USDT": "tether",
         "DAI": "dai",

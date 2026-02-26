@@ -89,7 +89,7 @@ class Balance(Base):
     
     id = Column(UUID(), primary_key=True, default=uuid.uuid4)
     wallet_id = Column(UUID(), ForeignKey("wallets.id", ondelete="CASCADE"), nullable=False)
-    token_symbol = Column(String(50), nullable=False)  # 'ETH', 'SOL', 'USDC', etc.
+    token_symbol = Column(String(100), nullable=False)  # Extended for IBC denoms like 'ibc/...'
     token_address = Column(String(255), nullable=True)  # NULL for native tokens
     balance = Column(Numeric(36, 18), nullable=False, default=0)
     usd_value = Column(Numeric(20, 2), nullable=True)
@@ -127,7 +127,7 @@ class BalanceHistory(Base):
     
     id = Column(UUID(), primary_key=True, default=uuid.uuid4)
     wallet_id = Column(UUID(), ForeignKey("wallets.id", ondelete="CASCADE"), nullable=False)
-    token_symbol = Column(String(50), nullable=False)
+    token_symbol = Column(String(100), nullable=False)  # Extended for IBC denoms like 'ibc/...'
     token_address = Column(String(255), nullable=True)
     balance = Column(Numeric(36, 18), nullable=False, default=0)
     usd_value = Column(Numeric(20, 2), nullable=True)

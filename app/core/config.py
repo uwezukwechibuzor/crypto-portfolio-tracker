@@ -46,6 +46,14 @@ class Settings(BaseSettings):
     SOLANA_RPC_URL: str = "https://api.mainnet-beta.solana.com"
     SOLANA_TIMEOUT: int = 30
     
+    # Cosmos Hub
+    COSMOS_RPC_URL: str = "https://cosmos-rest.publicnode.com"
+    COSMOS_TIMEOUT: int = 30
+    
+    # Celestia
+    CELESTIA_RPC_URL: str = "https://api.celestia.strange.love"
+    CELESTIA_TIMEOUT: int = 30
+    
     # Rate Limiting
     RATE_LIMIT_ENABLED: bool = True
     RATE_LIMIT_REQUESTS: int = 100

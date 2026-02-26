@@ -32,13 +32,37 @@ curl -X POST http://localhost:5000/api/v1/wallets \
   }'
 ```
 
-### 4. Get All Wallets
+### 4. Create Cosmos Hub Wallet
+
+```bash
+curl -X POST http://localhost:5000/api/v1/wallets \
+  -H "Content-Type: application/json" \
+  -d '{
+    "address": "cosmos1example1234567890abcdefghijklmnopqrs",
+    "chain": "cosmos",
+    "label": "My Cosmos Wallet"
+  }'
+```
+
+### 5. Create Celestia Wallet
+
+```bash
+curl -X POST http://localhost:5000/api/v1/wallets \
+  -H "Content-Type: application/json" \
+  -d '{
+    "address": "celestia1example1234567890abcdefghijklmnopqrs",
+    "chain": "celestia",
+    "label": "My Celestia Wallet"
+  }'
+```
+
+### 6. Get All Wallets
 
 ```bash
 curl http://localhost:5000/api/v1/wallets
 ```
 
-### 5. Fetch Wallet Balances
+### 7. Fetch Wallet Balances
 
 ```bash
 # Get wallet ID from previous response
@@ -49,19 +73,19 @@ curl -X POST http://localhost:5000/api/v1/wallets/$WALLET_ID/fetch \
   -d '{"force_refresh": false}'
 ```
 
-### 6. Get Stored Balances
+### 8. Get Stored Balances
 
 ```bash
 curl http://localhost:5000/api/v1/wallets/$WALLET_ID/balances
 ```
 
-### 7. Get Portfolio Summary
+### 9. Get Portfolio Summary
 
 ```bash
 curl http://localhost:5000/api/v1/portfolio
 ```
 
-### 8. Get Balance History
+### 10. Get Balance History
 
 ```bash
 curl "http://localhost:5000/api/v1/portfolio/history?wallet_id=$WALLET_ID&limit=50"
