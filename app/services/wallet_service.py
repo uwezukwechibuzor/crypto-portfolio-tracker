@@ -11,6 +11,7 @@ from loguru import logger
 from app.models.models import Wallet, Balance, BalanceHistory
 from app.services.ethereum_service import ethereum_service
 from app.services.solana_service import solana_service
+from app.services.price_service import price_service
 from app.db.redis_cache import cache
 
 
@@ -146,6 +147,12 @@ class WalletService:
             # Store balances in database
             stored_balances = []
             for token_symbol, balance in token_balances.items():
+                # Get USD price for token
+                usd_price = price_service.get_price(token_symbol)
+                usd_value = None
+                if usd_price:
+                    usd_value = balance * usd_price
+                
                 # Update or create balance
                 existing_balance = db.query(Balance).filter(
                     Balance.wallet_id == wallet_id,
@@ -155,6 +162,7 @@ class WalletService:
                 
                 if existing_balance:
                     existing_balance.balance = balance  # type: ignore
+                    existing_balance.usd_value = usd_value  # type: ignore
                     existing_balance.last_updated = datetime.utcnow()  # type: ignore
                     balance_obj = existing_balance
                 else:
@@ -162,6 +170,7 @@ class WalletService:
                         wallet_id=wallet_id,
                         token_symbol=token_symbol,
                         balance=balance,
+                        usd_value=usd_value,
                         last_updated=datetime.utcnow()
                     )
                     db.add(balance_obj)
@@ -173,6 +182,7 @@ class WalletService:
                     wallet_id=wallet_id,
                     token_symbol=token_symbol,
                     balance=balance,
+                    usd_value=usd_value,
                     recorded_at=datetime.utcnow()
                 )
                 db.add(history)
