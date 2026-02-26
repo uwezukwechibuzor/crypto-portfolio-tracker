@@ -1,5 +1,5 @@
 """
-Price service for fetching cryptocurrency prices
+CoinGecko price service for fetching cryptocurrency prices
 """
 from typing import Dict, Optional
 from decimal import Decimal
@@ -9,8 +9,8 @@ from tenacity import retry, stop_after_attempt, wait_exponential
 from app.db.redis_cache import cache
 
 
-class PriceService:
-    """Service for fetching cryptocurrency prices"""
+class CoinGeckoPriceService:
+    """Service for fetching cryptocurrency prices from CoinGecko"""
     
     COINGECKO_API = "https://api.coingecko.com/api/v3"
     
@@ -47,13 +47,13 @@ class PriceService:
         
         try:
             # Get CoinGecko ID for token
-            coingecko_id = PriceService.TOKEN_MAP.get(token_symbol.upper())
+            coingecko_id = CoinGeckoPriceService.TOKEN_MAP.get(token_symbol.upper())
             if not coingecko_id:
                 logger.warning(f"No CoinGecko mapping for token: {token_symbol}")
                 return None
             
             # Fetch price from CoinGecko
-            url = f"{PriceService.COINGECKO_API}/simple/price"
+            url = f"{CoinGeckoPriceService.COINGECKO_API}/simple/price"
             params = {
                 "ids": coingecko_id,
                 "vs_currencies": "usd"
@@ -98,7 +98,7 @@ class PriceService:
         symbol_to_id = {}
         
         for symbol in token_symbols:
-            coingecko_id = PriceService.TOKEN_MAP.get(symbol.upper())
+            coingecko_id = CoinGeckoPriceService.TOKEN_MAP.get(symbol.upper())
             if coingecko_id:
                 coingecko_ids.append(coingecko_id)
                 symbol_to_id[coingecko_id] = symbol.upper()
@@ -108,7 +108,7 @@ class PriceService:
         
         try:
             # Batch fetch from CoinGecko
-            url = f"{PriceService.COINGECKO_API}/simple/price"
+            url = f"{CoinGeckoPriceService.COINGECKO_API}/simple/price"
             params = {
                 "ids": ",".join(coingecko_ids),
                 "vs_currencies": "usd"
@@ -145,4 +145,4 @@ class PriceService:
 
 
 # Global price service instance
-price_service = PriceService()
+coingecko_price_service = CoinGeckoPriceService()

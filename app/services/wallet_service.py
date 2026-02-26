@@ -11,7 +11,7 @@ from loguru import logger
 from app.models.models import Wallet, Balance, BalanceHistory
 from app.services.ethereum_service import ethereum_service
 from app.services.solana_service import solana_service
-from app.services.price_service import price_service
+from app.services.coingecko_price_service import coingecko_price_service
 from app.db.redis_cache import cache
 
 
@@ -148,7 +148,7 @@ class WalletService:
             stored_balances = []
             for token_symbol, balance in token_balances.items():
                 # Get USD price for token
-                usd_price = price_service.get_price(token_symbol)
+                usd_price = coingecko_price_service.get_price(token_symbol)
                 usd_value = None
                 if usd_price:
                     usd_value = balance * usd_price
