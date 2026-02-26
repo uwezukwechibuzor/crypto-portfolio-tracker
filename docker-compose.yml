@@ -1,5 +1,8 @@
 version: '3.8'
 
+# NOTE: Environment variables like ${ETHEREUM_RPC_URL} are read from your .env file
+# Docker Compose automatically loads .env in the same directory
+
 services:
   # PostgreSQL Database
   postgres:
@@ -47,10 +50,12 @@ services:
       - DEBUG=false
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/crypto_portfolio
       - REDIS_URL=redis://redis:6379/0
+      - HOST=0.0.0.0
+      - PORT=5000
       - ETHEREUM_RPC_URL=${ETHEREUM_RPC_URL}
       - SOLANA_RPC_URL=${SOLANA_RPC_URL:-https://api.mainnet-beta.solana.com}
     ports:
-      - "5000:5000"
+      - "8000:5000"  # Map host port 8000 to container port 5000
     depends_on:
       postgres:
         condition: service_healthy

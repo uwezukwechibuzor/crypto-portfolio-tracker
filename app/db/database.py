@@ -30,11 +30,15 @@ def init_db():
     Initialize database - create all tables
     """
     try:
-        Base.metadata.create_all(bind=engine)
+        Base.metadata.create_all(bind=engine, checkfirst=True)
         logger.info("Database tables created successfully")
     except Exception as e:
-        logger.error(f"Error creating database tables: {e}")
-        raise
+        # If tables already exist from another worker, that's okay
+        if "already exists" in str(e).lower():
+            logger.info("Database tables already exist")
+        else:
+            logger.error(f"Error creating database tables: {e}")
+            raise
 
 
 def get_db() -> Generator[Session, None, None]:

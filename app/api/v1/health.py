@@ -3,6 +3,7 @@ Health check and system status endpoints
 """
 from flask import Blueprint, jsonify
 from datetime import datetime
+from sqlalchemy import text
 from loguru import logger
 
 from app.core.config import settings
@@ -31,7 +32,7 @@ def health_check():
     # Check database
     try:
         with engine.connect() as conn:
-            conn.execute("SELECT 1")
+            conn.execute(text("SELECT 1"))
         health_status["database"] = "connected"
     except Exception as e:
         logger.error(f"Database health check failed: {e}")
@@ -65,7 +66,7 @@ def readiness_check():
     try:
         # Check database connection
         with engine.connect() as conn:
-            conn.execute("SELECT 1")
+            conn.execute(text("SELECT 1"))
         
         return jsonify({
             "status": "ready",

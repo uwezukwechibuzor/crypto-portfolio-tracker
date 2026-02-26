@@ -49,9 +49,8 @@ class EthereumService:
         Returns:
             True if valid, False otherwise
         """
-        if not self.w3:
-            return False
-        return self.w3.is_address(address)
+        # Validate address format without requiring connection
+        return Web3.is_address(address)
     
     def checksum_address(self, address: str) -> str:
         """
@@ -63,9 +62,8 @@ class EthereumService:
         Returns:
             Checksummed address
         """
-        if not self.w3:
-            raise Exception("Ethereum service not connected")
-        return self.w3.to_checksum_address(address)
+        # Checksum address without requiring connection
+        return Web3.to_checksum_address(address)
     
     @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=2, max=10))
     def get_eth_balance(self, address: str) -> Decimal:
